@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Artisan Leather Co.</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .page-content {
+            padding-top: 120px; /* Adjust for fixed header */
+            padding-bottom: 5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <h2>Artisan Leather Co.</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="cart-btn" id="cartButton">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">0</span>
+                </button>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="page-content">
+        <div class="contact-header-section">
+            <div class="container">
+                <h1>Contact Us</h1>
+                <p>Whether you have a question about our products, need assistance with an order, or just want to say hello, we'd love to hear from you.</p>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <div class="contact-options-grid">
+                    <div class="contact-card">
+                        <i class="fas fa-envelope-open-text"></i>
+                        <h3>General Inquiries</h3>
+                        <p>For general questions about our company and products.</p>
+                        <a href="mailto:info@artisanleather.co.zw" class="btn btn-primary">Email Us</a>
+                    </div>
+                    <div class="contact-card">
+                        <i class="fas fa-headset"></i>
+                        <h3>Customer Support</h3>
+                        <p>Need help with an order or have a question about a return?</p>
+                        <a href="mailto:support@artisanleather.co.zw" class="btn btn-primary">Contact Support</a>
+                    </div>
+                    <div class="contact-card">
+                        <i class="fas fa-handshake"></i>
+                        <h3>Corporate & Bulk Orders</h3>
+                        <p>Interested in corporate gifting or bulk purchases?</p>
+                        <a href="mailto:sales@artisanleather.co.zw" class="btn btn-primary">Email Sales</a>
+                    </div>
+                </div>
+
+                <div class="contact-details-section">
+                    <div class="contact-info-list">
+                        <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Our Workshop</h2>
+                        <ul>
+                            <li><i class="fas fa-map-marker-alt"></i> <div><strong>Address:</strong><br>123 Leather Lane, Harare, Zimbabwe</div></li>
+                            <li><i class="fas fa-phone"></i> <div><strong>Phone:</strong><br>+263 77 123 4567</div></li>
+                            <li><i class="fas fa-clock"></i> <div><strong>Hours:</strong><br>Mon-Fri: 8AM - 5PM, Sat: 9AM - 1PM</div></li>
+                        </ul>
+                    </div>
+                    <div class="contact-map">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3798.596481731041!2d31.04963331535501!3d-17.8248599878237!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1931a4ee95827849%3A0xdf353f7b21cf3d2d!2sEastgate%20Centre!5e0!3m2!1sen!2szw!4v1678886453123!5m2!1sen!2szw" allowfullscreen="" loading="lazy" title="Map showing Eastgate Centre in Harare, Zimbabwe"></iframe>
+                    </div>
+                </div>
+
+                <div class="faq-section">
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <details class="faq-item">
+                        <summary>What are your shipping options?</summary>
+                        <div>We offer free delivery within Harare CBD. For other locations, shipping fees are calculated at checkout based on your address.</div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>What is your return policy?</summary>
+                        <div>We accept returns on unused items in their original condition within 14 days of purchase. Please contact our support team to initiate a return.</div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Do you offer a warranty on your products?</summary>
+                        <div>Yes, all our products come with a 1-year warranty covering craftsmanship and material defects.</div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>How do I care for my leather product?</summary>
+                        <div>We recommend using a quality leather conditioner periodically. Avoid prolonged exposure to direct sunlight and water. For specific care instructions, please refer to the product page.</div>
+                    </details>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Newsletter Signup Section -->
+    <section class="newsletter" style="padding: 5rem 0; background: var(--light-gray);">
+        <div class="container">
+            <div class="newsletter-content" style="text-align: center; max-width: 700px; margin: 0 auto;">
+                <h2 class="section-title">Stay Updated</h2>
+                <p style="margin-bottom: 2rem; color: var(--gray);">Join our newsletter for exclusive offers, new product launches, and updates on our craftsmanship journey.</p>
+                <form class="newsletter-form" style="display: flex; justify-content: center; gap: 1rem;">
+                    <input type="email" placeholder="Enter your email address" required style="padding: 12px; border: 1px solid var(--light-brown); border-radius: var(--border-radius); flex-grow: 1; max-width: 300px;">
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Your Shopping Bag</h3>
+            <button class="close-cart" id="closeCart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <a href="checkout.html" class="btn btn-primary btn-block">Proceed to Checkout</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col brand">
+                    <h4>Artisan Leather Co.</h4>
+                    <p>Craftsmanship in Every Stitch. Premium handcrafted leather goods from Zimbabwe.</p>
+                    <div class="footer-socials">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="products.html?category=bags">Bags</a></li>
+                        <li><a href="products.html?category=wallets">Wallets</a></li>
+                        <li><a href="products.html?category=belts">Belts</a></li>
+                        <li><a href="products.html?category=accessories">Accessories</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>We Accept</h4>
+                    <div class="payment-icons">
+                        <img src="images/logos/EcoCash.png" alt="EcoCash" title="EcoCash">
+                        <img src="images/logos/Innbucks.png" alt="InnBucks" title="InnBucks">
+                        <img src="images/logos/Visacard.png" alt="Visa" title="Visa">
+                        <img src="images/logos/Mastercard.png" alt="Mastercard" title="Mastercard">
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Artisan Leather Co. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Icon -->
+    <a href="https://wa.me/+263000000000" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/auth-user.js"></script>
+</body>
+</html>

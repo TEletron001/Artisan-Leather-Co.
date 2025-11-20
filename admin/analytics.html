@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - Artisan Leather Co.</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .admin-container { display: flex; min-height: 100vh; }
+        .admin-sidebar { width: 250px; background: var(--dark-brown); color: white; padding: 2rem 0; position: fixed; height: 100vh; overflow-y: auto; }
+        .admin-brand { padding: 0 1.5rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem; }
+        .admin-brand h2 { color: var(--accent-gold); font-size: 1.5rem; }
+        .admin-nav { list-style: none; padding: 0; }
+        .admin-nav li { margin-bottom: 0.5rem; }
+        .admin-nav a { display: flex; align-items: center; padding: 1rem 1.5rem; color: rgba(255,255,255,0.8); text-decoration: none; transition: var(--transition); }
+        .admin-nav a:hover, .admin-nav a.active { background: rgba(255,255,255,0.1); color: white; border-left: 4px solid var(--accent-gold); }
+        .admin-nav i { margin-right: 1rem; width: 20px; text-align: center; }
+        .admin-main { flex: 1; margin-left: 250px; background: var(--light-gray); min-height: 100vh; }
+        .admin-header { background: white; padding: 1rem 2rem; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; }
+        .admin-content { padding: 2rem; }
+        .stat-card { background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow); border-left: 4px solid var(--accent-gold); }
+        .stat-card h3 { color: var(--gray); font-size: 0.9rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .stat-number { font-size: 2rem; font-weight: bold; color: var(--dark-brown); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-top: 2rem; }
+        .chart-container { background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow); height: 400px; }
+        .table-container { background: white; border-radius: var(--border-radius); box-shadow: var(--shadow); padding: 1.5rem; margin-top: 2rem; }
+        .table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .table th, .table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--light-brown); }
+        .table th { background: var(--light-gray); font-weight: 600; color: var(--dark-brown); }
+
+        @media (max-width: 1200px) {
+            .charts-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .admin-sidebar { width: 100%; height: auto; position: relative; }
+            .admin-main { margin-left: 0; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .charts-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 576px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <nav class="admin-sidebar">
+            <div class="admin-brand">
+                <h2><i class="fas fa-crown"></i> Admin Panel</h2>
+                <small style="color: rgba(255,255,255,0.6);">Artisan Leather Co.</small>
+            </div>
+            <ul class="admin-nav">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="orders.html"><i class="fas fa-shopping-bag"></i> Orders</a></li>
+                <li><a href="products.html"><i class="fas fa-box"></i> Products</a></li>
+                <li><a href="customers.html"><i class="fas fa-users"></i> Customers</a></li>
+                <li><a href="analytics.html" class="active"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="../index.html" style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem;"><i class="fas fa-store"></i> Back to Store</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Sales Analytics</h1>
+                <div class="admin-actions">
+                    <span style="margin-right: 1rem; color: var(--gray);">
+                        <i class="fas fa-user"></i> Admin User
+                    </span>
+                    <button class="btn btn-sm btn-outline" id="logoutButton">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <!-- Filters -->
+                <div style="margin-bottom: 2rem; display: flex; justify-content: flex-end; align-items: center; gap: 1rem;">
+                    <label for="dateFilter" style="font-weight: 600; color: var(--dark-brown);">Date Range:</label>
+                    <select id="dateFilter" class="btn" style="border: 1px solid var(--light-brown); padding-right: 2rem;">
+                        <option value="all">All Time</option>
+                        <option value="30">Last 30 Days</option>
+                        <option value="7">Last 7 Days</option>
+                    </select>
+                </div>
+
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Revenue</h3>
+                        <div class="stat-number" id="totalRevenue">$0.00</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Orders</h3>
+                        <div class="stat-number" id="totalOrders">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Avg. Order Value</h3>
+                        <div class="stat-number" id="avgOrderValue">$0.00</div>
+                    </div>
+                     <div class="stat-card">
+                        <h3>Items Sold</h3>
+                        <div class="stat-number" id="totalItemsSold">0</div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <h3 style="margin-bottom: 1rem; color: var(--dark-brown);">Sales Over Time</h3>
+                        <canvas id="salesChart" height="400"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3 style="margin-bottom: 1rem; color: var(--dark-brown);">Sales by Category</h3>
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Top Products -->
+                <div class="table-container">
+                    <h3 style="color: var(--dark-brown);">Top Selling Products</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Units Sold</th>
+                                <th>Total Revenue</th>
+                            </tr>
+                        </thead>
+                        <tbody id="topProductsTable">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        // Protect this page
+        protectPage();
+
+        // Add logout functionality
+        document.getElementById('logoutButton').addEventListener('click', handleLogout);
+
+        // Global chart instances
+        let salesChartInstance;
+        let categoryChartInstance;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateAnalytics(); // Initial load
+
+            document.getElementById('dateFilter').addEventListener('change', updateAnalytics);
+        });
+
+        function updateAnalytics() {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            
+            if (orders.length === 0) {
+                document.querySelector('.admin-content').innerHTML = `
+                    <div class="stat-card" style="text-align: center; padding: 3rem;">
+                        <i class="fas fa-info-circle" style="font-size: 2rem; margin-bottom: 1rem; color: var(--accent-gold);"></i>
+                        <h3>No Order Data Available</h3>
+                        <p>Analytics will be shown here once you have some orders.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Filter orders based on date range
+            const filterValue = document.getElementById('dateFilter').value;
+            const filteredOrders = orders.filter(order => {
+                if (filterValue === 'all') return true;
+                const days = parseInt(filterValue, 10);
+                const orderDate = new Date(order.orderDate);
+                const cutoffDate = new Date();
+                cutoffDate.setDate(cutoffDate.getDate() - days);
+                return orderDate >= cutoffDate;
+            });
+
+            if (filteredOrders.length === 0) {
+                // Handle case where filter results in no orders
+                // For simplicity, we'll just show zeros, but you could show a message.
+            }
+
+            // Calculate stats
+            const totalRevenue = filteredOrders.reduce((sum, order) => sum + parseFloat(order.total.replace('$', '')), 0);
+            const totalOrders = filteredOrders.length;
+            const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+            const totalItemsSold = filteredOrders.reduce((sum, order) => sum + order.items.reduce((itemSum, item) => itemSum + item.quantity, 0), 0);
+
+            document.getElementById('totalRevenue').textContent = formatCurrency(totalRevenue);
+            document.getElementById('totalOrders').textContent = formatNumber(totalOrders);
+            document.getElementById('avgOrderValue').textContent = formatCurrency(avgOrderValue);
+            document.getElementById('totalItemsSold').textContent = formatNumber(totalItemsSold);
+
+            // Prepare data for charts
+            const salesByDate = filteredOrders.reduce((acc, order) => {
+                const date = new Date(order.orderDate).toLocaleDateString();
+                const amount = parseFloat(order.total.replace('$', ''));
+                acc[date] = (acc[date] || 0) + amount;
+                return acc;
+            }, {});
+
+            const salesByCategory = filteredOrders.reduce((acc, order) => {
+                order.items.forEach(item => {
+                    const product = products.find(p => p.id == item.id);
+                    if (product) {
+                        const category = product.category;
+                        const revenue = item.price * item.quantity;
+                        acc[category] = (acc[category] || 0) + revenue;
+                    }
+                });
+                return acc;
+            }, {});
+
+            // Prepare data for top products
+            const productSales = filteredOrders.reduce((acc, order) => {
+                order.items.forEach(item => {
+                    if (!acc[item.id]) {
+                        const productInfo = products.find(p => p.id == item.id);
+                        acc[item.id] = { 
+                            name: productInfo ? productInfo.name : `Product ID: ${item.id}`,
+                            category: productInfo ? productInfo.category : 'N/A',
+                            units: 0, 
+                            revenue: 0 
+                        };
+                    }
+                    acc[item.id].units += item.quantity;
+                    acc[item.id].revenue += item.price * item.quantity;
+                });
+                return acc;
+            }, {});
+
+            const topProducts = Object.values(productSales).sort((a, b) => b.revenue - a.revenue).slice(0, 5);
+
+            // Render Charts
+            renderSalesChart(Object.keys(salesByDate), Object.values(salesByDate));
+            renderCategoryChart(Object.keys(salesByCategory), Object.values(salesByCategory));
+            
+            // Render Table
+            renderTopProductsTable(topProducts);
+        }
+
+        function renderSalesChart(labels, data) {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            if (salesChartInstance) salesChartInstance.destroy();
+            salesChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Daily Revenue',
+                        data: data,
+                        backgroundColor: 'var(--accent-gold)',
+                        borderColor: 'var(--dark-brown)',
+                        borderWidth: 1
+                    }]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 100, // Set y-axis ticks to multiples of 100
+                                callback: function(value) {
+                                    return formatNumber(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderCategoryChart(labels, data) {
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+            if (categoryChartInstance) categoryChartInstance.destroy();
+            categoryChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels.map(l => l.charAt(0).toUpperCase() + l.slice(1)),
+                    datasets: [{
+                        label: 'Revenue by Category',
+                        data: data,
+                        backgroundColor: [
+                            '#5a3a22', // Dark Brown
+                            '#b58553', // Accent Gold
+                            '#8c6d52', // Medium Brown
+                            '#c4a78a', // Light Brown
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        function renderTopProductsTable(topProducts) {
+            const tableBody = document.getElementById('topProductsTable');
+            if (topProducts.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center;">No product sales data available.</td></tr>`;
+                return;
+            }
+            tableBody.innerHTML = topProducts.map(p => `
+                <tr>
+                    <td><strong>${p.name}</strong></td>
+                    <td>${p.category.charAt(0).toUpperCase() + p.category.slice(1)}</td>
+                    <td>${p.units}</td>
+                    <td>$${p.revenue.toFixed(2)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+            }
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+            }
+            return num.toString();
+        }
+
+        function formatCurrency(num) {
+            if (num >= 1000000) {
+                return '$' + (num / 1000000).toFixed(2) + 'M';
+            }
+            if (num >= 1000) {
+                return '$' + (num / 1000).toFixed(2) + 'k';
+            }
+            return '$' + num.toFixed(2);
+        }
+
+    </script>
+</body>
+</html>

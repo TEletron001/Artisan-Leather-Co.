@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers - Artisan Leather Co.</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-container { display: flex; min-height: 100vh; }
+        .admin-sidebar { width: 250px; background: var(--dark-brown); color: white; padding: 2rem 0; position: fixed; height: 100vh; overflow-y: auto; }
+        .admin-brand { padding: 0 1.5rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem; }
+        .admin-brand h2 { color: var(--accent-gold); font-size: 1.5rem; }
+        .admin-nav { list-style: none; padding: 0; }
+        .admin-nav li { margin-bottom: 0.5rem; }
+        .admin-nav a { display: flex; align-items: center; padding: 1rem 1.5rem; color: rgba(255,255,255,0.8); text-decoration: none; transition: var(--transition); }
+        .admin-nav a:hover, .admin-nav a.active { background: rgba(255,255,255,0.1); color: white; border-left: 4px solid var(--accent-gold); }
+        .admin-nav i { margin-right: 1rem; width: 20px; text-align: center; }
+        .admin-main { flex: 1; margin-left: 250px; background: var(--light-gray); min-height: 100vh; }
+        .admin-header { background: white; padding: 1rem 2rem; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; }
+        .admin-content { padding: 2rem; }
+        .table-container { background: white; border-radius: var(--border-radius); box-shadow: var(--shadow); padding: 1.5rem; }
+        .table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .table th, .table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--light-brown); }
+        .table th { background: var(--light-gray); font-weight: 600; color: var(--dark-brown); }
+        @media (max-width: 768px) {
+            .admin-sidebar { width: 100%; height: auto; position: relative; }
+            .admin-main { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <nav class="admin-sidebar">
+            <div class="admin-brand">
+                <h2><i class="fas fa-crown"></i> Admin Panel</h2>
+                <small style="color: rgba(255,255,255,0.6);">Artisan Leather Co.</small>
+            </div>
+            <ul class="admin-nav">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="orders.html"><i class="fas fa-shopping-bag"></i> Orders</a></li>
+                <li><a href="products.html"><i class="fas fa-box"></i> Products</a></li>
+                <li><a href="customers.html" class="active"><i class="fas fa-users"></i> Customers</a></li>
+                <li><a href="analytics.html"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="../index.html" style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem;"><i class="fas fa-store"></i> Back to Store</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Customer Management</h1>
+                <div class="admin-actions">
+                    <span style="margin-right: 1rem; color: var(--gray);">
+                        <i class="fas fa-user"></i> Admin User
+                    </span>
+                    <button class="btn btn-sm btn-outline" id="logoutButton">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <div class="table-container">
+                    <h2 style="margin-bottom: 1rem; color: var(--dark-brown);">
+                        <i class="fas fa-users"></i> Customer List
+                    </h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Total Orders</th>
+                                <th>Total Spent</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customersTable">
+                            <!-- Customers will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        // Protect this page
+        protectPage();
+
+        // Add logout functionality
+        document.getElementById('logoutButton').addEventListener('click', handleLogout);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCustomers();
+        });
+
+        function loadCustomers() {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const tableBody = document.getElementById('customersTable');
+
+            if (orders.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 2rem; color: var(--gray);">
+                            <i class="fas fa-user-slash" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+                            No customers yet.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            // Aggregate customer data from orders
+            const customers = orders.reduce((acc, order) => {
+                const email = order.customer.email;
+                if (!acc[email]) {
+                    acc[email] = {
+                        ...order.customer,
+                        orderCount: 0,
+                        totalSpent: 0
+                    };
+                }
+                acc[email].orderCount++;
+                acc[email].totalSpent += parseFloat(order.total.replace('$', ''));
+                return acc;
+            }, {});
+
+            tableBody.innerHTML = Object.values(customers).map(customer => `
+                <tr>
+                    <td><strong>${customer.firstName} ${customer.lastName}</strong></td>
+                    <td>${customer.email}</td>
+                    <td>${customer.phone}</td>
+                    <td>${customer.orderCount}</td>
+                    <td>$${customer.totalSpent.toFixed(2)}</td>
+                </tr>
+            `).join('');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product - Admin Dashboard</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Re-using some styles from other admin pages for consistency */
+        .admin-container { display: flex; min-height: 100vh; }
+        .admin-sidebar { width: 250px; background: var(--dark-brown); color: white; padding: 2rem 0; position: fixed; height: 100vh; overflow-y: auto; }
+        .admin-brand { padding: 0 1.5rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem; }
+        .admin-brand h2 { color: var(--accent-gold); font-size: 1.5rem; }
+        .admin-nav { list-style: none; padding: 0; }
+        .admin-nav li { margin-bottom: 0.5rem; }
+        .admin-nav a { display: flex; align-items: center; padding: 1rem 1.5rem; color: rgba(255,255,255,0.8); text-decoration: none; transition: var(--transition); }
+        .admin-nav a:hover, .admin-nav a.active { background: rgba(255,255,255,0.1); color: white; border-left: 4px solid var(--accent-gold); }
+        .admin-nav i { margin-right: 1rem; width: 20px; text-align: center; }
+        .admin-main { flex: 1; margin-left: 250px; background: var(--light-gray); min-height: 100vh; }
+        .admin-header { background: white; padding: 1rem 2rem; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; }
+        .admin-content { padding: 2rem; }
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        .form-actions {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        @media (max-width: 768px) {
+            .admin-sidebar { width: 100%; height: auto; position: relative; }
+            .admin-main { margin-left: 0; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <nav class="admin-sidebar">
+            <div class="admin-brand">
+                <h2><i class="fas fa-crown"></i> Admin Panel</h2>
+                <small style="color: rgba(255,255,255,0.6);">Artisan Leather Co.</small>
+            </div>
+            <ul class="admin-nav">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="orders.html"><i class="fas fa-shopping-bag"></i> Orders</a></li>
+                <li><a href="products.html" class="active"><i class="fas fa-box"></i> Products</a></li>
+                <li><a href="customers.html"><i class="fas fa-users"></i> Customers</a></li>
+                <li><a href="analytics.html"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="../index.html" style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem;"><i class="fas fa-store"></i> Back to Store</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Edit Product</h1>
+                <div class="admin-actions">
+                    <span style="margin-right: 1rem; color: var(--gray);">
+                        <i class="fas fa-user"></i> Admin User
+                    </span>
+                    <button class="btn btn-sm btn-outline" id="logoutButton">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <div class="form-container">
+                    <h2 style="margin-bottom: 2rem; color: var(--dark-brown);">Product Details</h2>
+                    <form id="editProductForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="productName">Product Name</label>
+                                <input type="text" id="productName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="productCategory">Category</label>
+                                <select id="productCategory" required>
+                                    <option value="wallets">Wallets</option>
+                                    <option value="bags">Bags</option>
+                                    <option value="accessories">Accessories</option>
+                                    <option value="belts">Belts</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="productPrice">Price ($)</label>
+                                <input type="number" id="productPrice" step="0.01" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="productStock">Stock Quantity</label>
+                                <input type="number" id="productStock" min="0" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="productDescription">Description</label>
+                                <textarea id="productDescription" rows="4"></textarea>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="productImage">Image Path</label>
+                                <input type="text" id="productImage" placeholder="e.g., images/products/wallet.jpg">
+                            </div>
+                            <div class="form-group full-width">
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox" id="productFeatured" style="width: auto;">
+                                    Is this a featured product?
+                                </label>
+                            </div>
+                            <div class="form-actions">
+                                <a href="products.html" class="btn btn-outline">Cancel</a>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        // Protect this page
+        protectPage();
+
+        // Add logout functionality
+        document.getElementById('logoutButton').addEventListener('click', handleLogout);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('editProductForm');
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('id'), 10);
+
+            if (!productId) {
+                alert('No product ID specified.');
+                window.location.href = 'products.html';
+                return;
+            }
+
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const product = products.find(p => p.id === productId);
+
+            if (!product) {
+                alert('Product not found.');
+                window.location.href = 'products.html';
+                return;
+            }
+
+            // Populate the form
+            document.getElementById('productName').value = product.name;
+            document.getElementById('productCategory').value = product.category;
+            document.getElementById('productPrice').value = product.price;
+            document.getElementById('productStock').value = product.stock;
+            document.getElementById('productDescription').value = product.description;
+            document.getElementById('productImage').value = product.image;
+            document.getElementById('productFeatured').checked = product.featured;
+
+            // Handle form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // Update product object
+                product.name = document.getElementById('productName').value;
+                product.category = document.getElementById('productCategory').value;
+                product.price = parseFloat(document.getElementById('productPrice').value);
+                product.stock = parseInt(document.getElementById('productStock').value, 10);
+                product.description = document.getElementById('productDescription').value;
+                product.image = document.getElementById('productImage').value;
+                product.featured = document.getElementById('productFeatured').checked;
+
+                // Find index and update the array
+                const productIndex = products.findIndex(p => p.id === productId);
+                products[productIndex] = product;
+
+                // Save back to localStorage
+                localStorage.setItem('products', JSON.stringify(products));
+
+                alert('Product updated successfully!');
+                window.location.href = 'products.html';
+            });
+        });
+    </script>
+</body>
+</html>

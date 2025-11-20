@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Artisan Leather Co.</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-container { display: flex; min-height: 100vh; }
+        .admin-sidebar { width: 250px; background: var(--dark-brown); color: white; padding: 2rem 0; position: fixed; height: 100vh; overflow-y: auto; }
+        .admin-brand { padding: 0 1.5rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem; }
+        .admin-brand h2 { color: var(--accent-gold); font-size: 1.5rem; }
+        .admin-nav { list-style: none; padding: 0; }
+        .admin-nav li { margin-bottom: 0.5rem; }
+        .admin-nav a { display: flex; align-items: center; padding: 1rem 1.5rem; color: rgba(255,255,255,0.8); text-decoration: none; transition: var(--transition); }
+        .admin-nav a:hover, .admin-nav a.active { background: rgba(255,255,255,0.1); color: white; border-left: 4px solid var(--accent-gold); }
+        .admin-nav i { margin-right: 1rem; width: 20px; text-align: center; }
+        .admin-main { flex: 1; margin-left: 250px; background: var(--light-gray); min-height: 100vh; }
+        .admin-header { background: white; padding: 1rem 2rem; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; }
+        .admin-content { padding: 2rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow); border-left: 4px solid var(--accent-gold); }
+        .stat-card h3 { color: var(--gray); font-size: 0.9rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .stat-number { font-size: 2rem; font-weight: bold; color: var(--dark-brown); }
+        .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+        .table-container { background: white; border-radius: var(--border-radius); box-shadow: var(--shadow); padding: 1.5rem; }
+        .table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .table th, .table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--light-brown); }
+        .table th { background: var(--light-gray); font-weight: 600; color: var(--dark-brown); }
+        .status-badge { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-confirmed { background: #d1ecf1; color: #0c5460; }
+        .status-shipped { background: #d4edda; color: #155724; }
+        .status-delivered { background: #e2e3e5; color: #383d41; }
+        .stock-low { color: #856404; font-weight: bold; }
+
+        @media (max-width: 1200px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .admin-sidebar { width: 100%; height: auto; position: relative; }
+            .admin-main { margin-left: 0; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 576px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <nav class="admin-sidebar">
+            <div class="admin-brand">
+                <h2><i class="fas fa-crown"></i> Admin Panel</h2>
+                <small style="color: rgba(255,255,255,0.6);">Artisan Leather Co.</small>
+            </div>
+            <ul class="admin-nav">
+                <li><a href="dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="orders.html"><i class="fas fa-shopping-bag"></i> Orders</a></li>
+                <li><a href="products.html"><i class="fas fa-box"></i> Products</a></li>
+                <li><a href="customers.html"><i class="fas fa-users"></i> Customers</a></li>
+                <li><a href="analytics.html"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="../index.html" style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem;"><i class="fas fa-store"></i> Back to Store</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Dashboard</h1>
+                <div class="admin-actions">
+                    <span style="margin-right: 1rem; color: var(--gray);">
+                        <i class="fas fa-user"></i> Admin User
+                    </span>
+                    <button class="btn btn-sm btn-outline" id="logoutButton">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Revenue</h3>
+                        <div class="stat-number" id="totalRevenue">$0.00</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Orders</h3>
+                        <div class="stat-number" id="totalOrders">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Products</h3>
+                        <div class="stat-number" id="totalProducts">0</div>
+                    </div>
+                     <div class="stat-card">
+                        <h3>Total Customers</h3>
+                        <div class="stat-number" id="totalCustomers">0</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Recent Orders -->
+                    <div class="table-container">
+                        <h2 style="margin-bottom: 1rem; color: var(--dark-brown);">
+                            <i class="fas fa-clock"></i> Recent Orders
+                        </h2>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentOrdersTable">
+                                <!-- Data will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Low Stock Products -->
+                    <div class="table-container">
+                        <h2 style="margin-bottom: 1rem; color: var(--dark-brown);">
+                            <i class="fas fa-exclamation-triangle"></i> Low Stock
+                        </h2>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Stock</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lowStockTable">
+                                <!-- Data will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                    <div class="stat-card" style="text-align: center; cursor: pointer;" onclick="location.href='product-add.html'">
+                        <i class="fas fa-plus" style="font-size: 2rem; color: var(--accent-gold); margin-bottom: 1rem;"></i>
+                        <h3>Add New Product</h3>
+                    </div>
+                    <div class="stat-card" style="text-align: center; cursor: pointer;" onclick="location.href='orders.html'">
+                        <i class="fas fa-shopping-bag" style="font-size: 2rem; color: var(--accent-gold); margin-bottom: 1rem;"></i>
+                        <h3>View All Orders</h3>
+                    </div>
+                    <div class="stat-card" style="text-align: center; cursor: pointer;" onclick="location.href='analytics.html'">
+                        <i class="fas fa-chart-line" style="font-size: 2rem; color: var(--accent-gold); margin-bottom: 1rem;"></i>
+                        <h3>Sales Analytics</h3>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        // Protect this page
+        protectPage();
+
+        // Add logout functionality
+        document.getElementById('logoutButton').addEventListener('click', handleLogout);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+
+            // Calculate and display stats
+            const totalRevenue = orders.reduce((sum, order) => sum + parseFloat(order.total.replace('$', '')), 0);
+            const totalOrders = orders.length;
+            const totalProducts = products.length;
+            const uniqueCustomers = new Set(orders.map(order => order.customer.email)).size;
+
+            document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
+            document.getElementById('totalOrders').textContent = totalOrders;
+            document.getElementById('totalProducts').textContent = totalProducts;
+            document.getElementById('totalCustomers').textContent = uniqueCustomers;
+
+            // Load recent orders
+            loadRecentOrders(orders);
+
+            // Load low stock products
+            loadLowStockProducts(products);
+        });
+
+        function loadRecentOrders(orders) {
+            const tableBody = document.getElementById('recentOrdersTable');
+            const recentOrders = orders.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)).slice(0, 5);
+
+            if (recentOrders.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 2rem;">No recent orders.</td></tr>`;
+                return;
+            }
+
+            tableBody.innerHTML = recentOrders.map(order => {
+                const status = order.status || 'pending';
+                return `
+                    <tr style="cursor: pointer;" onclick="viewOrder('${order.orderId}')">
+                        <td><strong>${order.orderId}</strong></td>
+                        <td>${order.customer.firstName} ${order.customer.lastName}</td>
+                        <td>${order.total}</td>
+                        <td>
+                            <span class="status-badge status-${status}">
+                                ${status.charAt(0).toUpperCase() + status.slice(1)}
+                            </span>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function loadLowStockProducts(products) {
+            const tableBody = document.getElementById('lowStockTable');
+            const lowStockProducts = products.filter(p => p.stock <= 10).sort((a, b) => a.stock - b.stock);
+
+            if (lowStockProducts.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="2" style="text-align: center; padding: 2rem;">All products are well-stocked.</td></tr>`;
+                return;
+            }
+
+            tableBody.innerHTML = lowStockProducts.map(product => `
+                <tr style="cursor: pointer;" onclick="editProduct('${product.id}')">
+                    <td>${product.name}</td>
+                    <td class="stock-low">${product.stock}</td>
+                </tr>
+            `).join('');
+        }
+
+        function viewOrder(orderId) {
+            window.location.href = `order-details.html?id=${orderId}`;
+        }
+
+        function editProduct(productId) {
+            window.location.href = `product-edit.html?id=${productId}`;
+        }
+    </script>
+</body>
+</html>

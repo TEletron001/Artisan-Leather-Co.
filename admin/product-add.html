@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product - Artisan Leather Co.</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-container { display: flex; min-height: 100vh; }
+        .admin-sidebar { width: 250px; background: var(--dark-brown); color: white; padding: 2rem 0; position: fixed; height: 100vh; overflow-y: auto; }
+        .admin-brand { padding: 0 1.5rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem; }
+        .admin-brand h2 { color: var(--accent-gold); font-size: 1.5rem; }
+        .admin-nav { list-style: none; padding: 0; }
+        .admin-nav li { margin-bottom: 0.5rem; }
+        .admin-nav a { display: flex; align-items: center; padding: 1rem 1.5rem; color: rgba(255,255,255,0.8); text-decoration: none; transition: var(--transition); }
+        .admin-nav a:hover, .admin-nav a.active { background: rgba(255,255,255,0.1); color: white; border-left: 4px solid var(--accent-gold); }
+        .admin-nav i { margin-right: 1rem; width: 20px; text-align: center; }
+        .admin-main { flex: 1; margin-left: 250px; background: var(--light-gray); min-height: 100vh; }
+        .admin-header { background: white; padding: 1rem 2rem; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; }
+        .admin-content { padding: 2rem; }
+        .form-container { max-width: 800px; margin: 0 auto; background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow); }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        .form-group input[type="checkbox"] { width: auto; margin-right: 0.5rem; }
+        @media (max-width: 768px) {
+            .admin-sidebar { width: 100%; height: auto; position: relative; }
+            .admin-main { margin-left: 0; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <nav class="admin-sidebar">
+            <div class="admin-brand">
+                <h2><i class="fas fa-crown"></i> Admin Panel</h2>
+                <small style="color: rgba(255,255,255,0.6);">Artisan Leather Co.</small>
+            </div>
+            <ul class="admin-nav">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="orders.html"><i class="fas fa-shopping-bag"></i> Orders</a></li>
+                <li><a href="products.html" class="active"><i class="fas fa-box"></i> Products</a></li>
+                <li><a href="customers.html"><i class="fas fa-users"></i> Customers</a></li>
+                <li><a href="analytics.html"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="../index.html" style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem;"><i class="fas fa-store"></i> Back to Store</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Add New Product</h1>
+                <div class="admin-actions">
+                    <span style="margin-right: 1rem; color: var(--gray);">
+                        <i class="fas fa-user"></i> Admin User
+                    </span>
+                    <button class="btn btn-sm btn-outline" id="logoutButton">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <div class="form-container">
+                    <form id="addProductForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="productName">Product Name</label>
+                                <input type="text" id="productName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="productCategory">Category</label>
+                                <select id="productCategory" required>
+                                    <option value="">Select a category...</option>
+                                    <option value="wallets">Wallets</option>
+                                    <option value="bags">Bags</option>
+                                    <option value="accessories">Accessories</option>
+                                    <option value="belts">Belts</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="productPrice">Price ($)</label>
+                                <input type="number" id="productPrice" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="productStock">Stock Quantity</label>
+                                <input type="number" id="productStock" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="productImage">Image URL</label>
+                                <input type="text" id="productImage" placeholder="e.g., images/products/new-product.jpg" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="productDescription">Description</label>
+                                <textarea id="productDescription" rows="4" required></textarea>
+                            </div>
+                            <div class="form-group full-width">
+                                <label style="display: flex; align-items: center;">
+                                    <input type="checkbox" id="productFeatured">
+                                    Is this a featured product?
+                                </label>
+                            </div>
+                        </div>
+                        <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                            <button type="submit" class="btn btn-primary">Add Product</button>
+                            <a href="products.html" class="btn btn-outline">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        // Protect this page
+        protectPage();
+
+        // Add logout functionality
+        document.getElementById('logoutButton').addEventListener('click', handleLogout);
+
+        // Handle form submission
+        document.getElementById('addProductForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const newProduct = {
+                id: Date.now(), // Simple unique ID
+                name: document.getElementById('productName').value,
+                category: document.getElementById('productCategory').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                stock: parseInt(document.getElementById('productStock').value, 10),
+                image: document.getElementById('productImage').value,
+                description: document.getElementById('productDescription').value,
+                featured: document.getElementById('productFeatured').checked
+            };
+
+            products.push(newProduct);
+            localStorage.setItem('products', JSON.stringify(products));
+
+            alert('Product added successfully!');
+            window.location.href = 'products.html';
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize products in localStorage if it's not already set.
+            // This ensures the admin panel has data to work with.
+            if (!localStorage.getItem('products')) {
+                const sampleProducts = [
+                    {
+                        id: 1, name: "Classic Bi-Fold Wallet", price: 45.00, image: "images/products/wallet-1.jpg",
+                        category: "wallets", description: "Premium full-grain leather wallet with multiple card slots and cash compartment.",
+                        featured: true, stock: 25
+                    },
+                    {
+                        id: 2, name: "Slim Card Holder", price: 35.00, image: "images/products/card-holder.jpg",
+                        category: "wallets", description: "Minimalist leather card holder perfect for everyday carry.",
+                        featured: true, stock: 40
+                    },
+                    {
+                        id: 3, name: "Leather Crossbody Bag", price: 120.00, image: "images/products/crossbody-bag.jpg",
+                        category: "bags", description: "Elegant crossbody bag with adjustable strap and multiple compartments.",
+                        featured: true, stock: 15
+                    },
+                    {
+                        id: 4, name: "Classic Leather Belt", price: 55.00, image: "images/products/belt.jpg",
+                        category: "accessories", description: "Handcrafted genuine leather belt with polished buckle.",
+                        featured: true, stock: 30
+                    },
+                    {
+                        id: 5, name: "Passport Wallet", price: 65.00, image: "images/products/passport-wallet.jpg",
+                        category: "wallets", description: "Travel organizer with passport slot and document pockets.",
+                        featured: false, stock: 20
+                    },
+                    {
+                        id: 6, name: "Leather Backpack", price: 180.00, image: "images/products/backpack.jpg",
+                        category: "bags", description: "Stylish leather backpack for work and travel.",
+                        featured: false, stock: 10
+                    }
+                ];
+                localStorage.setItem('products', JSON.stringify(sampleProducts));
+            }
+        });
+    </script>
+</body>
+</html>

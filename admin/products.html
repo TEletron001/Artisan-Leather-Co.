@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Artisan Leather Co.</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .admin-sidebar {
+            width: 250px;
+            background: var(--dark-brown);
+            color: white;
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .admin-brand {
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 1rem;
+        }
+        
+        .admin-brand h2 {
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+        }
+        
+        .admin-nav {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .admin-nav li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-nav a {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .admin-nav a:hover,
+        .admin-nav a.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left: 4px solid var(--accent-gold);
+        }
+        
+        .admin-nav i {
+            margin-right: 1rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .admin-main {
+            flex: 1;
+            margin-left: 250px;
+            background: var(--light-gray);
+            min-height: 100vh;
+        }
+        
+        .admin-header {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-content {
+            padding: 2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--accent-gold);
+        }
+        
+        .stat-card h3 {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--dark-brown);
+        }
+        
+        .stat-change {
+            color: #28a745;
+            font-size: 0.9rem;
+        }
+        
+        .recent-orders {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-brown);
+        }
+        
+        .table th {
+            background: var(--light-gray);
+            font-weight: 600;
+            color: var(--dark-brown);
+        }
+        
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-confirmed { background: #d1ecf1; color: #0c5460; }
+        .status-shipped { background: #d4edda; color: #155724; }
+        .status-delivered { background: #e2e3e5; color: #383d41; }
+        
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .admin-main {
+                margin-left: 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .table {
+                font-size: 0.9rem;
+            }
+            
+            .table th,
+            .table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <nav class="admin-sidebar">
+            <div class="admin-brand">
+                <h2><i class="fas fa-crown"></i> Admin Panel</h2>
+                <small style="color: rgba(255,255,255,0.6);">Artisan Leather Co.</small>
+            </div>
+            <ul class="admin-nav">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="orders.html"><i class="fas fa-shopping-bag"></i> Orders</a></li>
+                <li><a href="products.html" class="active"><i class="fas fa-box"></i> Products</a></li>
+                <li><a href="customers.html"><i class="fas fa-users"></i> Customers</a></li>
+                <li><a href="analytics.html"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="../index.html" style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem;"><i class="fas fa-store"></i> Back to Store</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Products Management</h1>
+                <div class="admin-actions">
+                    <span style="margin-right: 1rem; color: var(--gray);">
+                        <i class="fas fa-user"></i> Admin User
+                    </span>
+                    <button class="btn btn-sm btn-outline" id="logoutButton">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <!-- Stats Overview -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Revenue</h3>
+                        <div class="stat-number" id="totalRevenue">$0.00</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Orders</h3>
+                        <div class="stat-number" id="totalOrders">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Products</h3>
+                        <div class="stat-number" id="totalProducts">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Customers</h3>
+                        <div class="stat-number" id="totalCustomers">0</div>
+                    </div>
+                </div>
+
+                <!-- Search and Filter -->
+                <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                    <input type="text" id="productSearch" placeholder="Search products by name or description..." style="flex: 1; padding: 0.75rem; border: 1px solid var(--light-brown); border-radius: var(--border-radius);">
+                    <label for="productCategoryFilter" style="margin-right: 0.5rem;">Filter by Category:</label>
+                    <select id="productCategoryFilter" style="padding: 0.75rem; border: 1px solid var(--light-brown); border-radius: var(--border-radius);">
+                        <option value="">All Categories</option>
+                        <option value="wallets">Wallets</option>
+                        <option value="bags">Bags</option>
+                        <option value="accessories">Accessories</option>
+                        <option value="belts">Belts</option>
+                    </select>
+                </div>
+
+                <!-- Products List -->
+                <div class="recent-orders">
+                    <h2 style="margin-bottom: 1rem; color: var(--dark-brown);">
+                        <i class="fas fa-box"></i> Products List
+                    </h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product ID</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTable">
+                            <!-- Products will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Quick Actions -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                    <div class="stat-card" style="text-align: center; cursor: pointer;" onclick="location.href='product-add.html'">
+                        <i class="fas fa-plus" style="font-size: 2rem; color: var(--accent-gold); margin-bottom: 1rem;"></i>
+                        <h3>Add New Product</h3>
+                    </div>
+                    <div class="stat-card" style="text-align: center; cursor: pointer;" onclick="location.href='orders.html'">
+                        <i class="fas fa-shopping-bag" style="font-size: 2rem; color: var(--accent-gold); margin-bottom: 1rem;"></i>
+                        <h3>Manage Orders</h3>
+                    </div>
+                    <div class="stat-card" style="text-align: center; cursor: pointer;" onclick="location.href='analytics.html'">
+                        <i class="fas fa-chart-line" style="font-size: 2rem; color: var(--accent-gold); margin-bottom: 1rem;"></i>
+                        <h3>Sales Analytics</h3>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        // Protect this page
+        protectPage();
+
+        // Add logout functionality
+        document.getElementById('logoutButton').addEventListener('click', handleLogout);
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize products in localStorage if it's not already set.
+            if (!localStorage.getItem('products')) {
+                const sampleProducts = [
+                    { id: 1, name: "Classic Bi-Fold Wallet", price: 45.00, image: "../images/products/wallet-1.jpg", category: "wallets", description: "Premium full-grain leather wallet with multiple card slots and cash compartment.", featured: true, stock: 25 },
+                    { id: 2, name: "Slim Card Holder", price: 35.00, image: "../images/products/card-holder.jpg", category: "wallets", description: "Minimalist leather card holder perfect for everyday carry.", featured: true, stock: 40 },
+                    { id: 3, name: "Leather Crossbody Bag", price: 120.00, image: "../images/products/crossbody-bag.jpg", category: "bags", description: "Elegant crossbody bag with adjustable strap and multiple compartments.", featured: true, stock: 15 },
+                    { id: 4, name: "Classic Leather Belt", price: 55.00, image: "../images/products/belt.jpg", category: "belts", description: "Handcrafted genuine leather belt with polished buckle.", featured: true, stock: 30 },
+                    { id: 5, name: "Passport Wallet", price: 65.00, image: "../images/products/passport-wallet.jpg", category: "wallets", description: "Travel organizer with passport slot and document pockets.", featured: false, stock: 20 },
+                    { id: 6, name: "Leather Backpack", price: 180.00, image: "../images/products/backpack.jpg", category: "bags", description: "Stylish leather backpack for work and travel.", featured: false, stock: 10 },
+                    { id: 7, name: "Vintage Leather Briefcase", price: 250.00, image: "../images/products/briefcase.jpg", category: "bags", description: "A timeless leather briefcase for the modern professional.", featured: false, stock: 8 },
+                    { id: 8, name: "Key Holder Organizer", price: 20.00, image: "../images/products/key-holder.jpg", category: "accessories", description: "Compact leather key holder to keep your keys organized.", featured: true, stock: 50 },
+                    { id: 9, name: "Leather Journal Cover", price: 75.00, image: "../images/products/journal.jpg", category: "accessories", description: "Handmade leather cover for your journal or notebook.", featured: false, stock: 12 },
+                    { id: 10, name: "Braided Leather Bracelet", price: 25.00, image: "../images/products/bracelet.jpg", category: "accessories", description: "Stylish braided leather bracelet with a magnetic clasp.", featured: true, stock: 60 }
+                ];
+                localStorage.setItem('products', JSON.stringify(sampleProducts));
+            }
+            // Also seed orders if they don't exist, for stats calculation
+            if (!localStorage.getItem('orders')) {
+                const sampleOrders = [
+                    {
+                        orderId: "ORD001",
+                        customer: { firstName: "John", lastName: "Doe", email: "john.doe@example.com", phone: "123-456-7890" },
+                        orderDate: "2024-03-10T10:00:00Z",
+                        total: "$165.00",
+                        status: "delivered",
+                        items: [
+                            { id: 1, name: "Classic Bi-Fold Wallet", price: 45.00, quantity: 1 },
+                            { id: 3, name: "Leather Crossbody Bag", price: 120.00, quantity: 1 }
+                        ]
+                    },
+                    {
+                        orderId: "ORD002",
+                        customer: { firstName: "Jane", lastName: "Smith", email: "jane.smith@example.com", phone: "098-765-4321" },
+                        orderDate: "2024-03-12T14:30:00Z",
+                        total: "$35.00",
+                        status: "shipped",
+                        items: [
+                            { id: 2, name: "Slim Card Holder", price: 35.00, quantity: 1 }
+                        ]
+                    },
+                    {
+                        orderId: "ORD003",
+                        customer: { firstName: "Alice", lastName: "Johnson", email: "alice.j@example.com", phone: "555-123-4567" },
+                        orderDate: "2024-03-15T09:15:00Z",
+                        total: "$55.00",
+                        status: "pending",
+                        items: [
+                            { id: 4, name: "Classic Leather Belt", price: 55.00, quantity: 1 }
+                        ]
+                    },
+                    {
+                        orderId: "ORD004",
+                        customer: { firstName: "Bob", lastName: "Williams", email: "bob.w@example.com", phone: "111-222-3333" },
+                        orderDate: "2024-03-18T11:00:00Z",
+                        total: "$100.00",
+                        status: "confirmed",
+                        items: [
+                            { id: 1, name: "Classic Bi-Fold Wallet", price: 45.00, quantity: 1 },
+                            { id: 5, name: "Passport Wallet", price: 65.00, quantity: 1 }
+                        ]
+                    },
+                    {
+                        orderId: "ORD005",
+                        customer: { firstName: "Charlie", lastName: "Brown", email: "charlie.b@example.com", phone: "444-555-6666" },
+                        orderDate: "2024-03-20T16:00:00Z",
+                        total: "$180.00",
+                        status: "shipped",
+                        items: [
+                            { id: 6, name: "Leather Backpack", price: 180.00, quantity: 1 }
+                        ]
+                    }
+                ];
+                localStorage.setItem('orders', JSON.stringify(sampleOrders));
+            }
+            loadPageData(); // Call a new function to load all data and stats
+        });
+
+        function loadPageData() {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+
+            // Calculate and display stats
+            const totalRevenue = orders.reduce((sum, order) => sum + parseFloat(order.total.replace('$', '')), 0);
+            const totalOrders = orders.length;
+            const totalProducts = products.length;
+            const uniqueCustomers = new Set(orders.map(order => order.customer.email)).size;
+
+            document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
+            document.getElementById('totalOrders').textContent = totalOrders;
+            document.getElementById('totalProducts').textContent = totalProducts;
+            document.getElementById('totalCustomers').textContent = uniqueCustomers;
+
+            // Load products with current filters
+            loadProducts();
+        }
+
+        function loadProducts() {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const tableBody = document.getElementById('productsTable');
+            const searchTerm = document.getElementById('productSearch').value.toLowerCase();
+            const categoryFilter = document.getElementById('productCategoryFilter').value;
+
+            let filteredProducts = products;
+
+            if (searchTerm) {
+                filteredProducts = filteredProducts.filter(product =>
+                    product.name.toLowerCase().includes(searchTerm) ||
+                    product.description.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            if (categoryFilter) {
+                filteredProducts = filteredProducts.filter(product =>
+                    product.category === categoryFilter
+                );
+            }
+
+            if (filteredProducts.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 2rem; color: var(--gray);">
+                            <i class="fas fa-box-open" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+                            No products yet
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tableBody.innerHTML = filteredProducts.map(product => {
+                const stockStatus = product.stock > 10 ? 'In Stock' : product.stock > 0 ? 'Low Stock' : 'Out of Stock';
+                const stockClass = product.stock > 10 ? 'status-confirmed' : product.stock > 0 ? 'status-pending' : 'status-delivered';
+
+                return `
+                    <tr>
+                        <td><strong>${product.id}</strong></td>
+                        <td>${product.name}</td>
+                        <td>${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</td>
+                        <td>$${product.price.toFixed(2)}</td>
+                        <td>
+                            <span class="status-badge ${stockClass}">
+                                ${stockStatus} (${product.stock})
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="editProduct('${product.id}')">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteProduct('${product.id}')">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function editProduct(productId) {
+            window.location.href = `product-edit.html?id=${productId}`;
+        }
+
+        function deleteProduct(productId) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                const products = JSON.parse(localStorage.getItem('products')) || [];
+                const updatedProducts = products.filter(product => product.id !== productId);
+                localStorage.setItem('products', JSON.stringify(updatedProducts));
+                loadProducts();
+            }
+        }
+
+        // Event listeners for search and filter
+        document.getElementById('productSearch').addEventListener('keyup', loadProducts);
+        document.getElementById('productCategoryFilter').addEventListener('change', loadProducts);
+    </script>
+</body>
+</html>

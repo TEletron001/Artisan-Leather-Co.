@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Artisan Leather Co.</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="spinner"></div>
+    </div>
+
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <h2>Artisan Leather Co.</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="checkout-page">
+        <div class="container">
+            <h1 class="page-title">Checkout</h1>
+            
+            <div class="checkout-grid">
+                <div class="checkout-form">
+                    <form id="checkoutForm">
+                        <!-- Customer Information -->
+                        <div class="form-section">
+                            <h3>Customer Information</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="firstName">First Name *</label>
+                                    <input type="text" id="firstName" name="firstName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name *</label>
+                                    <input type="text" id="lastName" name="lastName" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" name="phone" required>
+                            </div>
+                        </div>
+
+                        <!-- Delivery Information -->
+                        <div class="form-section">
+                            <h3>Delivery Information</h3>
+                            <div class="form-group">
+                                <label for="location">Delivery Location *</label>
+                                <select id="location" name="location" required onchange="calculateDelivery()">
+                                    <option value="">Select Location</option>
+                                    <option value="harare-cbd">Harare CBD - FREE</option>
+                                    <option value="near-harare">Near Harare - $5</option>
+                                    <option value="outside-harare">Outside Harare - $15</option>
+                                    <option value="rural-areas">Rural Areas - $30</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Delivery Address *</label>
+                                <textarea id="address" name="address" rows="3" required></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="form-section">
+                            <h3>Payment Method</h3>
+                            <div class="payment-methods">
+                                <div class="payment-option">
+                                    <input type="radio" id="ecocash" name="paymentMethod" value="ecocash" required>
+                                    <label for="ecocash" class="payment-label">
+                                        <img src="images/logos/EcoCash.png" alt="EcoCash Logo">
+                                        <span>EcoCash</span>
+                                    </label>
+                                </div>
+                                <div class="payment-option">
+                                    <input type="radio" id="innbucks" name="paymentMethod" value="innbucks" required>
+                                    <label for="innbucks" class="payment-label">
+                                        <img src="images/logos/Innbucks.png" alt="InnBucks Logo">
+                                        <span>InnBucks</span>
+                                    </label>
+                                </div>
+                                <div class="payment-option">
+                                    <input type="radio" id="cash" name="paymentMethod" value="cash" required>
+                                    <label for="cash" class="payment-label">
+                                        <img src="images/logos/cash-on-delivery.jpg" alt="Cash on Delivery Logo">
+                                        <span>Cash on Delivery</span>
+                                    </label>
+                                </div>
+                                <div class="payment-option">
+                                    <input type="radio" id="card" name="paymentMethod" value="card" required>
+                                    <label for="card" class="payment-label">
+                                        <img src="images/logos/Visacard.png" alt="Visa Logo">
+                                        <img src="images/logos/Mastercard.png" alt="Mastercard Logo">
+                                        <span>Visa / Mastercard</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Payment Instructions & Errors will be injected here -->
+                            <div id="paymentFeedback"></div>
+
+                            <!-- EcoCash Details -->
+                            <div id="ecocashDetails" class="payment-details" style="display: none;">
+                                <div class="form-group">
+                                    <label for="ecocashNumber">EcoCash Number *</label>
+                                    <input type="tel" id="ecocashNumber" name="ecocashNumber" placeholder="077X XXX XXX">
+                                </div>
+                            </div>
+
+                            <!-- InnBucks Details -->
+                            <div id="innbucksDetails" class="payment-details" style="display: none;">
+                                <div class="form-group">
+                                    <label for="innbucksNumber">InnBucks Number *</label>
+                                    <input type="tel" id="innbucksNumber" name="innbucksNumber" placeholder="078X XXX XXX">
+                                </div>
+                            </div>
+
+                            <!-- Card Details -->
+                            <div id="cardDetails" class="payment-details" style="display: none;">
+                                <div class="form-group card-number-group">
+                                    <div class="card-number-label">
+                                        <label for="cardNumber">Card Number *</label>
+                                        <div class="card-icons">
+                                            <img src="images/logos/Visacard.png" alt="Visa">
+                                            <img src="images/logos/Mastercard.png" alt="Mastercard">
+                                        </div>
+                                    </div>
+                                    <input type="text" id="cardNumber" name="cardNumber" placeholder="•••• •••• •••• ••••">
+                                </div>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="cardExpiry">Expiry Date *</label>
+                                        <input type="text" id="cardExpiry" name="cardExpiry" placeholder="MM / YY">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cardCVC">CVC *</label>
+                                        <input type="text" id="cardCVC" name="cardCVC" placeholder="123">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cardName">Name on Card *</label>
+                                    <input type="text" id="cardName" name="cardName" placeholder="e.g. John Doe">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Complete Order</button>
+                    </form>
+                </div>
+
+                <div class="order-summary">
+                    <h3>Order Summary</h3>
+                    <div class="summary-items" id="summaryItems">
+                        <!-- Items will be loaded here -->
+                    </div>
+                    <div class="summary-totals">
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Delivery:</span>
+                            <span id="deliveryFee">$0.00</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total:</span>
+                            <span id="totalAmount">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <a href="https://wa.me/+263788025819" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="js/cart.js"></script>
+    <script src="js/checkout.js"></script>
+    <script src="js/payment.js"></script>
+    <script src="js/auth-user.js"></script>
+</body>
+</html>
