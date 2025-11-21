@@ -270,13 +270,13 @@ function initializeProducts() {
             { id: 1, name: "Classic Bi-Fold Wallet", price: 45.00, image: "images/products/Wallet.jpg", category: "wallets", description: "Premium full-grain leather wallet with multiple card slots and cash compartment.", featured: true, stock: 25, priceDisplay: "$45.00" },
             { id: 2, name: "Slim Card Holder", price: 35.00, image: "images/products/Card-Holder.jpg", category: "wallets", description: "Minimalist leather card holder perfect for everyday carry.", featured: true, stock: 40, priceDisplay: "$35.00" },
             { id: 3, name: "Leather Crossbody Bag", price: 120.00, image: "images/products/Crossbodybag.jpg", category: "bags", description: "Elegant crossbody bag with adjustable strap and multiple compartments.", featured: true, stock: 15, priceDisplay: "$120.00" },
-            { id: 4, name: "Classic Leather Belt", price: 55.00, image: "images/products/belt.jpg", category: "belts", description: "Handcrafted genuine leather belt with polished buckle.", featured: true, stock: 30, priceDisplay: "$55.00" },
-            { id: 5, name: "Passport Wallet", price: 65.00, image: "images/products/passport-wallet.jpg", category: "wallets", description: "Travel organizer with passport slot and document pockets.", featured: false, stock: 20, priceDisplay: "$65.00" },
-            { id: 6, name: "Leather Backpack", price: 180.00, image: "images/products/backpack.jpg", category: "bags", description: "Stylish leather backpack for work and travel.", featured: false, stock: 10, priceDisplay: "$180.00" },
-            { id: 7, name: "Vintage Leather Briefcase", price: 250.00, image: "images/products/briefcase.jpg", category: "bags", description: "A timeless leather briefcase for the modern professional.", featured: false, stock: 8, priceDisplay: "$250.00" },
-            { id: 8, name: "Key Holder Organizer", price: 20.00, image: "images/products/key-holder.jpg", category: "accessories", description: "Compact leather key holder to keep your keys organized.", featured: true, stock: 50, priceDisplay: "$20.00" },
-            { id: 9, name: "Leather Journal Cover", price: 75.00, image: "images/products/journal.jpg", category: "accessories", description: "Handmade leather cover for your journal or notebook.", featured: false, stock: 12, priceDisplay: "$75.00" },
-            { id: 10, name: "Braided Leather Bracelet", price: 25.00, image: "images/products/bracelet.jpg", category: "accessories", description: "Stylish braided leather bracelet with a magnetic clasp.", featured: true, stock: 60, priceDisplay: "$25.00" }
+            { id: 4, name: "Classic Leather Belt", price: 55.00, image: "images/products/Belt.jpg", category: "belts", description: "Handcrafted genuine leather belt with polished buckle.", featured: true, stock: 30, priceDisplay: "$55.00" },
+            { id: 5, name: "Passport Wallet", price: 65.00, image: "images/products/Passport-Wallet.jpg", category: "wallets", description: "Travel organizer with passport slot and document pockets.", featured: false, stock: 20, priceDisplay: "$65.00" },
+            { id: 6, name: "Leather Backpack", price: 180.00, image: "images/products/Backpack.jpg", category: "bags", description: "Stylish leather backpack for work and travel.", featured: false, stock: 10, priceDisplay: "$180.00" },
+            { id: 7, name: "Vintage Leather Briefcase", price: 250.00, image: "images/products/Briefcase.jpg", category: "bags", description: "A timeless leather briefcase for the modern professional.", featured: false, stock: 8, priceDisplay: "$250.00" },
+            { id: 8, name: "Key Holder Organizer", price: 20.00, image: "images/products/Key-holder.jpg", category: "accessories", description: "Compact leather key holder to keep your keys organized.", featured: true, stock: 50, priceDisplay: "$20.00" },
+            { id: 9, name: "Leather Journal Cover", price: 75.00, image: "images/products/Journal.jpg", category: "accessories", description: "Handmade leather cover for your journal or notebook.", featured: false, stock: 12, priceDisplay: "$75.00" },
+            { id: 10, name: "Braided Leather Bracelet", price: 25.00, image: "images/products/Bracelet.jpg", category: "accessories", description: "Stylish braided leather bracelet with a magnetic clasp.", featured: true, stock: 60, priceDisplay: "$25.00" }
         ];
         localStorage.setItem('products', JSON.stringify(sampleProducts));
     }
@@ -641,3 +641,4 @@ function updateCategoryCounts() {
         }
     });
 }
+
