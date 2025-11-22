@@ -91,7 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     initializeProductListeners();
-});
 
 // Load featured products
 function loadFeaturedProducts() {
