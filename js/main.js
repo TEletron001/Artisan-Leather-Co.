@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
         menuToggle.addEventListener('touchstart', toggleMenu);
 
         function toggleMenu(event){
-            event.preventDefualt();
+            event.preventDefault();
             navLinks.classList.toggle(active);
             console.log('Menu Toogled!');
           }   
@@ -648,6 +648,7 @@ function updateCategoryCounts() {
         }
     });
 }
+
 
 
 
