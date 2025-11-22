@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function toggleMenu(event){
             event.preventDefault();
-            navLinks.classList.toggle(active);
+            navLinks.classList.toggle('active');
             console.log('Menu Toogled!');
           }   
         } else{
@@ -648,6 +648,7 @@ function updateCategoryCounts() {
         }
     });
 }
+
 
 
 
