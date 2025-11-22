@@ -20,23 +20,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.querySelector('.nav-links');
     if (menuToggle && navLinks) {
-        let isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 ||navigator.msMaxTouchPoints > 0;
-        function handleMenuToggle(event){
-            if(isTouchDevice && event.type === 'touchstart'){
-                event.preventDefault();
-            }
-            if(event._processedByToggleMenu) return;
-            event._processedByToggleMenu = true;
+        menuToggle.addEventListener('click', toggleMenu);
+        menuToggle.addEventListener('touchstart', toggleMenu);
 
-            navLinks.classList.toggle('active')
-            console.log('Menu toggled!');
-            setTimeout(() => { event._processedByToggleMenu = false; }, 300);
-        }
-        if (isTouchDevice){
-            menuToggle.addEventListener('touchstart', handleMenuToggle);
-        }else{
-            menuToggle.addEventListener('click', handleMenuToggle);
-        }
+        function toggleMenu(event){
+            event.preventDefualt();
+            navLinks.classList.toggle(active);
+            console.log('Menu Toogled!');
+          }   
         } else{
         console.error('Menu toggle elements not found!');
     }
@@ -657,6 +648,7 @@ function updateCategoryCounts() {
         }
     });
 }
+
 
 
 
