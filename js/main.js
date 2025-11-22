@@ -14,13 +14,14 @@ document.addEventListener('DOMContentLoaded', function() {
     loadFeaturedProducts();
     // Update category counts on the homepage
     updateCategoryCounts();
+});
     
     // Mobile menu toggle
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.querySelector('.nav-links');
     if (menuToggle && navLinks) {
-        menuToggle.addEventListener('click', toggleMenu);
-        menuToggle.addEventListener('touchstart', toggleMenu);
+        menuToggle.addEventListener('click', menuToggle);
+        menuToggle.addEventListener('touchstart', menuToggle);
 
         function toggleMuenu(event){
             event.preventDefault();
@@ -648,6 +649,7 @@ function updateCategoryCounts() {
         }
     });
 }
+
 
 
 
