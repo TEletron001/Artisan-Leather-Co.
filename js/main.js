@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
     } else{
         console.error('Menu toggle elements not found!');
     }
-});
 
     // Cart sidebar functionality is in cart.js, which is included on all pages.
     const cartButton = document.getElementById('cartButton');
@@ -649,5 +648,6 @@ function updateCategoryCounts() {
         }
     });
 }
+
 
 
