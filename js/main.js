@@ -20,10 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.querySelector('.nav-links');
     if (menuToggle && navLinks) {
-        menuToggle.addEventListener('click', menuToggle);
-        menuToggle.addEventListener('touchstart', menuToggle);
+        menuToggle.addEventListener('click', toggleMenu);
+        menuToggle.addEventListener('touchstart', toggleMenu);
 
-        function toggleMuenu(event){
+        function toggleMenu(event){
             event.preventDefault();
             navLinks.classList.toggle('active')
             console.log('Menu toggleg!');
@@ -648,6 +648,7 @@ function updateCategoryCounts() {
         }
     });
 }
+
 
 
 
